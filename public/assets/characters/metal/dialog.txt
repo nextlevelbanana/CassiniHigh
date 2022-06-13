@@ -1,0 +1,14 @@
+OPENER 
+So you're new huh? How do you like the school so far?999
+GOOD 
+The kids seem cool, but school is school, you know?999
+BAD 
+Oh I love it!999
+WHAT 
+(shrug)999
+ONGOOD 
+I hear ya!999
+ONBAD 
+Oh... well don't let me keep you from getting to class then...999
+ONWHAT
+Uh, ok, well, I gotta go.999
