@@ -5,5 +5,5 @@
     }],
     "top": [{"id": 1, "score": 1}, {"id": 2, "score": 0}],
     "bottom": [{"id": 1, "score": 0.5}],
-    "feet": [{"id": 1, "score": 0.5}]
+    "feet": [{"id": 1, "score": 0.2}]
 }

@@ -13,7 +13,7 @@ export const feet = writable("1");
 
 export const itemsInView = writable("hair");
 export const putOn = writable("1");
-export const currentScene = writable("closet");
+export const currentScene = writable("title");
 
 export const floofRep = writable (0.5);
 export const fancyRep = writable (0.5);

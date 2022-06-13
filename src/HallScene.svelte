@@ -1,11 +1,11 @@
 <script>
     import Player from "./Player.svelte";
     import {name, currentScene, hair, top, bottom, feet, metalRep, floofRep, cyberRep, fancyRep, threshholds, counts} from "./store.js";
-
     
     const bgMusic = null;
 
-    const kids = ["metal", "floof", "cyber", "fancy"];
+    let kids = ["metal", "floof", "cyber", "fancy"];
+    const allKids = ["metal", "floof", "cyber", "fancy"];
 
     let stores;
     $: stores = {
@@ -25,31 +25,49 @@
     let them = [];
     let you = [];
 
+    let currentKid;
+    let weights;
+    let showDoneWithKidButton;
+
     const advance = () => {
         currentScene.set("lunch");
     }
 
     const talkTo = async (kid) => {
         them = [];
+        currentKid = kid;
         const outfitScore = await calculateOutfit(kid);
         const newAttitude = calculateNewAttitude(kid, outfitScore);
         await loadCorrectDialog(kid, newAttitude);
+        weights = await (await fetch(`./assets/characters/${kid}/opinions.json`)).json();
     }
 
+    let max;
+    let min;
     const calculateOutfit = async kid => {
         score = 0;
+        max = null;
+        min = null;
         var json = await (await fetch(`./assets/characters/${kid}/scores.json`)).json();
         for (const [key,slot] of Object.entries(json)) {
-            score += slot.find(item => item.id == stores[key]).score;
+            const itemScore = slot.find(item => item.id == stores[key]).score;
+            score += itemScore;
+            if (!max || itemScore > max.score) {
+                max = {key: key, score: itemScore}
+            }
+            if (!min || itemScore < min.score ) {
+                min = {key: key, score: itemScore}
+            }
         }
         score = score/4;
         return score;
     }
 
-    const calculateNewAttitude = (kid, outfitScore) => {
+    const calculateNewAttitude = (kid) => {
         const key = kid + "Rep"
         const rep = stores[key];
-        const newRep = Number((outfitScore * 0.65 + rep * 0.35).toFixed(2));
+        const newRep = Number((score * 0.65 + rep * 0.35).toFixed(2));
+        score = newRep;
         eval(key).set(newRep);
         return newRep;
     }
@@ -70,9 +88,53 @@
     const talk = rank => {
         you = [you.find(opt => opt.rank == rank)];
         them = [...them, json["on" + rank]];
+        calculateNewRep(rank);
+        giveTip();
+        showDoneWithKidButton = true;
+    }
+
+    const giveTip = () => {
+        if (min.score < 0.25) {
+            them = [...them, json.badTip.replaceAll("$name", keyToFit[min.key])];
+        } else if (max.score > 0.75) {
+            them = [... them, json.goodTip.replaceAll("$name", keyToFit[max.key])];
+        }
+    }
+
+    const keyToFit = {
+        hair: "hair",
+        top: "shirt",
+        bottom: "pants",
+        feet: "shoes"
+    }
+
+    const calculateNewRep = rank => {
+        const key = currentKid + "Rep";
+        let newRep = stores[key];
+        switch (rank){
+            case "good":
+                newRep += weights.good;
+                break;
+            case "bad":
+                newRep += weights.bad;
+                break;
+            case "what":
+                newRep += weights.what;
+                break;
+        }
+        eval(key).set(newRep);
+
     }
 
     const shuffle = () => Math.random() - 0.5;
+    const clearKid = () => {
+        score = 0;
+        you = [];
+        them = [];
+        kids = kids.filter(k => k != currentKid);
+        currentKid = null;
+        showDoneWithKidButton = false;
+    }
 
 </script>
 
@@ -129,9 +191,15 @@
         background-color: aquamarine;
         border-radius: 10%;
         padding: 2rem;
+        max-width: 600px;
+        min-width: 600px;
+        position: relative;
     }
     .you button:hover {
         background-color: lightgreen;
+    }
+    .you .doneButton {
+
     }
 </style>
 
@@ -144,20 +212,25 @@
 {#each kids as kid}
     <button on:click={async () => await talkTo(kid)}>👋 {kid} </button>
 {/each}
+{$metalRep}
 </div>
-<h1>Ah, the halls... {score} </h1>
-<h1>{$metalRep}</h1>
 <div class="them">
     {#each them as line}
     <div class="line">{line}</div>
     {/each}
 </div>
     {#if showYou}
-    <div class="you">
+        <div class="you">
 
-        {#each you as option}
-            <button on:click={() => talk(option.rank)}>{option.value}</button>
-        {/each}
-    </div>
+            {#each you as option}
+                <button on:click={() => talk(option.rank)}>{option.value}</button>
+            {/each}
+            {#if showDoneWithKidButton}
+            <button class="doneButton" on:click={clearKid}>Bye!</button>
+                {/if}
+        </div>
     {/if}
-<button class="doneButton" on:click={advance}>That's enough talking for one day. Time for lunch...</button>
+
+{#if !currentKid}
+    <button class="doneButton" on:click={advance}>That's enough talking for one day. Time for lunch...</button>
+{/if}

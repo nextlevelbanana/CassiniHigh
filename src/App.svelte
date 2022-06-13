@@ -1,34 +1,28 @@
 <script>
 	import ClosetScene from "./ClosetScene.svelte";
 	import HallScene from "./HallScene.svelte";
+	import LunchScene from "./LunchScene.svelte";
+	import TitleScene from "./TitleScene.svelte";
 	import {currentScene} from "./store.js";
+	import PauseMenu from "./PauseMenu.svelte";
+	console.log("Hey! No cheating!");
 </script>
 
 <main>
-	{#if $currentScene == "closet"}
+	{#if $currentScene == "title"}
+		<TitleScene/>
+	{:else if $currentScene == "closet"}
 		<ClosetScene/>
 	{:else if $currentScene == "hall"}
 		<HallScene/>
+	{:else if $currentScene == "lunch"}
+		<LunchScene/>
 	{/if}
+	<PauseMenu/>
 </main>
 
 <style>
 	main {
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;		
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+		margin: 1rem;
 	}
 </style>
