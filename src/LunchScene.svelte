@@ -1,5 +1,4 @@
 <script>
-    import {metalRep} from "./store.js";
 </script>
 
-<h1>LUNCH TIME {$metalRep}</h1>
+<h1>LUNCH TIME</h1>

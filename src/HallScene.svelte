@@ -1,11 +1,10 @@
 <script>
     import Player from "./Player.svelte";
-    import {name, currentScene, hair, top, bottom, feet, metalRep, floofRep, cyberRep, fancyRep, threshholds, counts} from "./store.js";
+    import {name, kids, currentScene, hair, top, bottom, feet, turboRep, floofRep, cyberRep, fancyRep, threshholds, counts} from "./store.js";
     
     const bgMusic = null;
 
-    let kids = ["metal", "floof", "cyber", "fancy"];
-    const allKids = ["metal", "floof", "cyber", "fancy"];
+    const localKids = [...$kids];
 
     let stores;
     $: stores = {
@@ -16,7 +15,7 @@
         floofRep: $floofRep,
         fancyRep: $fancyRep,
         cyberRep: $cyberRep,
-        metalRep: $metalRep
+        turboRep: $turboRep
     }
 
     let score = 0;
@@ -94,7 +93,7 @@
     }
 
     const giveTip = () => {
-        if (min.score < 0.25) {
+        if (min.score < 0.45) {
             them = [...them, json.badTip.replaceAll("$name", keyToFit[min.key])];
         } else if (max.score > 0.75) {
             them = [... them, json.goodTip.replaceAll("$name", keyToFit[max.key])];
@@ -131,7 +130,7 @@
         score = 0;
         you = [];
         them = [];
-        kids = kids.filter(k => k != currentKid);
+        localKids = localKids.filter(k => k != currentKid);
         currentKid = null;
         showDoneWithKidButton = false;
     }
@@ -209,10 +208,9 @@
     <Player></Player>
 </div>
 <div class="wave">
-{#each kids as kid}
+{#each localKids as kid}
     <button on:click={async () => await talkTo(kid)}>👋 {kid} </button>
 {/each}
-{$metalRep}
 </div>
 <div class="them">
     {#each them as line}

@@ -1,0 +1,63 @@
+{
+    "conversation":
+    [
+        {
+            "speaker": "them",
+            "text": "Hey bestie! How's life on Mars?"
+        },
+        {
+            "speaker": "you",
+            "text": "Saturn."
+        },
+        {
+            "speaker": "them",
+            "text": "That's what I said."
+        },
+        {
+            "speaker": "you",
+            "text": "uh huh. It's... I dunno... kinda intimidating. Everyone's so much cooler than me!"
+        },
+        {
+            "speaker": "them",
+            "text": "That's a low bar. HEYOOOO jk jk, we both know that's not true."
+        },
+        {
+            "speaker": "you",
+            "text": "Maybe. The scenes are all so different from the ones on Earth, I don't know where I'll fit in."
+        },
+        {
+            "speaker": "them",
+            "text": "You'll fit in anywhere you want. Just pick a scene and go for it!"
+        },
+        {
+            "speaker": "you",
+            "text": "..."
+        },
+        {
+            "speaker": "them",
+            "text": "For real. Do it now. Pick a scene right now. Tell me who your new friends will be."
+        },
+        {
+            "speaker": "you",
+            "text": "Uh, well..."
+        }
+    ],
+    "conversation2": [
+        {
+            "speaker": "you",
+            "text": "The $scene kids seem like they might be fun. You really think I can do it?"
+        },
+        {
+            "speaker": "them",
+            "text": "Absolutely. If you're not eating at their table by Friday, I owe you a Moon Rock."
+        },
+        {
+            "speaker": "you",
+            "text": "...please don't mail a can of soda halfway across the solar system."
+        },
+        {
+            "speaker": "them",
+            "text": "Hey. I do what I want."
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 <script>
     import ClosetUI from "./ClosetUI.svelte";
+import CurrentDay from "./CurrentDay.svelte";
     import ItemViewer from "./ItemViewer.svelte";
     import Player from "./Player.svelte";
     import {currentScene} from "./store.js";
@@ -25,11 +26,10 @@
     }
 </style>
 
-<!-- <h1>Let's get dressed!</h1> -->
-
 <div class="playerContainer">
     <Player/>
     <ClosetUI/>
     <ItemViewer/>
 </div>
+<CurrentDay/>
 <button class="doneButton" on:click={advance}>I'm as ready as I'm gonna get...</button>
