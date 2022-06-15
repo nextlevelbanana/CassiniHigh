@@ -86,7 +86,8 @@
     }
 
     const moveOn = () => {
-        currentDay.set("Monday");
+        console.log($currentDay++);
+        currentDay.set($currentDay++);
         currentScene.set("closet");
     }
 </script>

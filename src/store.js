@@ -19,12 +19,12 @@ export const putOn = writable("1");
 export const currentScene = writable("title");
 
 export const days = readable(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]);
-export const currentDay = writable("Sunday");
+export const currentDay = writable(0);
 
-export const floofRep = writable (0.5);
-export const fancyRep = writable (0.5);
-export const turboRep = writable (0.5);
-export const cyberRep = writable (0.5);
+export const reps = writable({
+    floof: 0.5,
+    turbo: 0.5
+})
 
 export const threshholds = readable({unsure: 0.3, like: 0.7});
 export const counts = writable({

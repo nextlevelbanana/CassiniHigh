@@ -1,10 +1,10 @@
 <script>
     import Player from "./Player.svelte";
-    import {name, kids, currentScene, hair, top, bottom, feet, turboRep, floofRep, cyberRep, fancyRep, threshholds, counts} from "./store.js";
+    import {name, kids, currentScene, hair, top, bottom, feet, reps, threshholds, counts} from "./store.js";
     
     const bgMusic = null;
 
-    const localKids = [...$kids];
+    let localKids = [...$kids];
 
     let stores;
     $: stores = {
@@ -12,11 +12,11 @@
         top: $top,
         bottom: $bottom,
         feet: $feet,
-        floofRep: $floofRep,
-        fancyRep: $fancyRep,
-        cyberRep: $cyberRep,
-        turboRep: $turboRep
+        turbo: $reps.turbo,
+        floof: $reps.floof
     }
+
+    console.log(stores);
 
     let score = 0;
     let showYou = false;
@@ -63,11 +63,13 @@
     }
 
     const calculateNewAttitude = (kid) => {
-        const key = kid + "Rep"
-        const rep = stores[key];
+        const rep = stores[kid];
         const newRep = Number((score * 0.65 + rep * 0.35).toFixed(2));
         score = newRep;
-        eval(key).set(newRep);
+        $reps[kid] = newRep;
+        $reps = {...$reps};
+        console.log($reps);
+        //eval(key).set(newRep);
         return newRep;
     }
 
@@ -108,8 +110,7 @@
     }
 
     const calculateNewRep = rank => {
-        const key = currentKid + "Rep";
-        let newRep = stores[key];
+        let newRep = stores[currentKid];
         switch (rank){
             case "good":
                 newRep += weights.good;
@@ -121,7 +122,8 @@
                 newRep += weights.what;
                 break;
         }
-        eval(key).set(newRep);
+        $reps = {...$reps, [currentKid]: newRep};
+        console.log($reps);
 
     }
 

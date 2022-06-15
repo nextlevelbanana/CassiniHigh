@@ -1,5 +1,7 @@
 <script>
-    import {currentDay} from "./store";
+    import {currentDay, days} from "./store";
+    console.log($currentDay);
+    console.log($days)
 </script>
 
 <style>
@@ -13,4 +15,4 @@
     }
 </style>
 
-<h1>{$currentDay}</h1>
+<h1>{$days[$currentDay]}</h1>
