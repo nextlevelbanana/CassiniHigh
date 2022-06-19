@@ -6,26 +6,31 @@
     img#hair {
         z-index: 1;
         position: absolute;
-        top:-100px;
-        left: -50px;
+        top: 0;
+        left: 0px;
     }
     img#top {
         z-index: 3;
         position: absolute;
         top: 115px;
         left: -50px;
+        display: none;
     }
     img#bottom {
         z-index: 2;
         position: absolute;
         top: 364px;
         left: 20px;
+        display: none;
+
     }
     img#feet {
         z-index: 1;
         position: absolute;
         top: 677px;
         left: 26px;
+        display: none;
+
     }
 </style>
 

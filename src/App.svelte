@@ -7,12 +7,20 @@
 	import PauseMenu from "./PauseMenu.svelte";
 	import IntroScene from "./IntroScene.svelte";
 	import ChooseSelfScene from "./ChooseSelfScene.svelte";
+	import OutroScene from "./OutroScene.svelte";
+	import CreditsScene from "./CreditsScene.svelte";
 
 	console.log("Hey! No cheating!");
+
+	let bgImg;
+	let cssVarStyles = `--bgImg: url('${bgImg}')`	;
+	$: {
+		bgImg = `../assets/images/${$currentScene}_background.png`;
+		cssVarStyles = `--bgImg: url(${bgImg})`;
+	}
 </script>
 
-<main>
-
+<main style="{cssVarStyles}">
 	{#if $currentScene == "title"}
 		<TitleScene/>
 	{:else if $currentScene == "name"}
@@ -25,12 +33,19 @@
 		<HallScene/>
 	{:else if $currentScene == "lunch"}
 		<LunchScene/>
+	{:else if $currentScene == "outro"}
+		<OutroScene/>
+	{:else if $currentScene == "credits"}
+		<CreditsScene/>
 	{/if}
 	<PauseMenu/>
 </main>
 
 <style>
 	main {
-		margin: 1rem;
+		padding: 1rem;
+		background-image: var(--bgImg);
+		height:100vh;
+		width: 100vw;
 	}
 </style>

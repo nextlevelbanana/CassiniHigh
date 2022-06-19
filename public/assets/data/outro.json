@@ -1,0 +1,87 @@
+{
+    "conversation":
+    [
+        {
+            "speaker": "them",
+            "text": "Sooo... it's Friday! How'd it go?"
+        },
+        {
+            "speaker": "you",
+            "text": "Well..."
+        }
+    ],
+    "win": [
+        {
+            "speaker": "you",
+            "text": "It went great! I'm totally part of the $scene crew now."
+        },
+        {
+            "speaker": "them",
+            "text": "See? I knew you could do it! You've always been the coolest person I know."
+        },
+        {
+            "speaker": "you",
+            "text": "Aww. 💖"
+        }
+    ],
+    "weirdWin": [
+        {
+            "speaker": "you",
+            "text": "I didn't make friends with the $scene folks."
+        },
+        {
+            "speaker": "them",
+            "text": "Buncha stuckup jerkmotrons! Who needs em!"
+        },
+        {
+            "speaker": "you",
+            "text": "But, get this, I DID make friends with the $scene2s!"
+        },
+        {
+            "speaker": "them",
+            "text": "Hey, way to go! They seem more your style anyway."
+        },
+        {
+            "speaker": "you",
+            "text": "Yeah, I wasn't sure at first, but I really like them!"
+        },
+        {
+            "speaker": "them",
+            "text": "I'm drinking a Moon Rock right now, in your honor."
+        },
+        {
+            "speaker": "you",
+            "text": "Cheers. :)"
+        }
+    ],
+    "lose": [
+        {
+            "speaker": "you",
+            "text": "...not great tbh. I think everyone thinks I'm weird."
+        },
+        {
+            "speaker": "them",
+            "text": "Hey, hang in there. The year is young, and friendships take time. I didn't like you for the first, like, six months."
+        },
+        {
+            "speaker": "you",
+            "text": "Ha. Ha."
+        },
+        {
+            "speaker": "them",
+            "text": "Fr tho, just keep being yourself. They'll come around."
+        },
+        {
+            "speaker": "you",
+            "text": "Wait, who said anything about being myself?? I've been being a $scene kid all week!"
+        },
+        {
+            "speaker": "them",
+            "text": "Haha, well, don't sweat it, ok? Your people are out there somewhere."
+        },
+        {
+            "speaker": "you",
+            "text": "I'll try my best. Thanks, friend. :)"
+        }
+    ]
+}

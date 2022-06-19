@@ -13,7 +13,7 @@ import CurrentDay from "./CurrentDay.svelte";
 <style>
     .playerContainer {
         position: absolute;
-        top: 30px;
+        top: 10px;
         left: 100px;
         display: inline-flex;
     }

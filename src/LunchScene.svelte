@@ -2,6 +2,7 @@
 import { currentScene, currentDay, days, kids, threshholds, reps } from "./store";
 
     let isStanding = true;
+    let currentMood;
 
     $: if (!isStanding) {
         currentDay.set($currentDay + 1);
@@ -13,11 +14,21 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     }
 
     const sitWith = async (kid) => {
-        getCurrentMood();
+        getCurrentMood(kid);
         askToSit();
         hearResponse();
         recalculateMood();
         ifStandingRemoveFromOptions();
+    }
+
+    const getCurrentMood = async (kid) => {
+        if ($reps[kid] < threshholds.unsure) {
+            currentMood = "dislike";
+        } else if ($reps[kid] >= threshholds.like) {
+            currentMood = "like";
+        } else {
+            currentMood = "unsure";
+        }
     }
 
     const eatAlone = () => {
