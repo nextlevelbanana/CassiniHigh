@@ -1,7 +1,5 @@
 <script>
     import {currentDay, days} from "./store";
-    console.log($currentDay);
-    console.log($days)
 </script>
 
 <style>

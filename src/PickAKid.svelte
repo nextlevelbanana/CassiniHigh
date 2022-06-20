@@ -2,6 +2,7 @@
     export let showOverlay;
     import { onMount } from "svelte";
     let json;
+    let bgMusic;
 
     import {kids, goalGroup} from "./store.js";
 
@@ -15,6 +16,11 @@
     const decide = () => {
         goalGroup.set(selected);
         showOverlay = false;
+    }
+
+    const select = kid => {
+        selected = kid;
+        bgMusic = `./assets/music/${kid}.mp3`;
     }
 </script>
 
@@ -43,6 +49,7 @@
 </style>
 
 <div class="container">
+    <audio src={bgMusic} autoplay=true loop="true"/>
     <h1>THE COOL KIDS</h1>
     {#each $kids as kid}
         <h2>{kid}</h2>
@@ -51,7 +58,7 @@
                 <div class="hi">{json[kid]}</div>
             {/if}
         </div>
-        <button on:click={() => selected = kid}>ℹ️</button>
+        <button on:click={() => select(kid)}>ℹ️</button>
     {/each}
     
     {#if selected}

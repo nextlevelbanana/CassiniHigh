@@ -1,10 +1,16 @@
 <script>
     import Player from "./Player.svelte";
-    import {name, kids, currentScene, hair, top, bottom, feet, reps, threshholds, counts} from "./store.js";
-    
-    const bgMusic = null;
+    import {sleep} from "./sleep.js";
+    import {name, kids, currentScene, hair, top, bottom, feet, reps, threshholds, counts, howTheyFeelAbout} from "./store.js";
+    //copypasta
+    let showArrow = "";
+    let localKids = ["turbo", "floof", "morm", "invisigoth"]
+    let talking;
+    let canTalk = {floof: true, invisigoth: true, morm: true, turbo: true};
+    //end copypasta
 
-    let localKids = [...$kids];
+
+    const bgMusic = null;
 
     let stores;
     $: stores = {
@@ -16,12 +22,13 @@
         floof: $reps.floof
     }
 
-    console.log(stores);
+    const startingReps = {...$reps};
 
     let score = 0;
     let showYou = false;
     
     let them = [];
+    let them2 = [];
     let you = [];
 
     let currentKid;
@@ -34,7 +41,11 @@
 
     const talkTo = async (kid) => {
         them = [];
+        them2 = [];
         currentKid = kid;
+        showArrow = ""; 
+        talking = kid;
+        await sleep(400);
         const outfitScore = await calculateOutfit(kid);
         const newAttitude = calculateNewAttitude(kid, outfitScore);
         await loadCorrectDialog(kid, newAttitude);
@@ -69,7 +80,6 @@
         $reps[kid] = newRep;
         $reps = {...$reps};
         console.log($reps);
-        //eval(key).set(newRep);
         return newRep;
     }
 
@@ -82,13 +92,16 @@
         $counts[kid][mood] += 1;
         json = await (await fetch(`./assets/characters/${kid}/dialog_${mood}_1.json`)).json();
         them = [json.opener.replaceAll("$name", $name)];
+        await sleep(400);
         you = [{rank: "good", value: json.good}, {rank: "bad", value: json.bad}, {rank: "what", value: json.what}].sort(shuffle );
         showYou = true;
     }       
 
-    const talk = rank => {
+    const talk = async rank => {
         you = [you.find(opt => opt.rank == rank)];
-        them = [...them, json["on" + rank]];
+        await sleep(400);
+
+        them2 = [json["on" + rank]];
         calculateNewRep(rank);
         giveTip();
         showDoneWithKidButton = true;
@@ -96,9 +109,9 @@
 
     const giveTip = () => {
         if (min.score < 0.45) {
-            them = [...them, json.badTip.replaceAll("$name", keyToFit[min.key])];
+            them2 = [...them2, json.badTip.replaceAll("$name", keyToFit[min.key])];
         } else if (max.score > 0.75) {
-            them = [... them, json.goodTip.replaceAll("$name", keyToFit[max.key])];
+            them2 = [... them2, json.goodTip.replaceAll("$name", keyToFit[max.key])];
         }
     }
 
@@ -123,7 +136,6 @@
                 break;
         }
         $reps = {...$reps, [currentKid]: newRep};
-        console.log($reps);
 
     }
 
@@ -132,9 +144,33 @@
         score = 0;
         you = [];
         them = [];
-        localKids = localKids.filter(k => k != currentKid);
+        canTalk[currentKid] = false;
+        console.log(canTalk)
+        calculateNewRepsForOthers(currentKid);
+        // localKids = localKids.filter(k => k != currentKid);
         currentKid = null;
+        talking = null;
+        showArrow = null;
         showDoneWithKidButton = false;
+        
+    }
+
+    const calculateNewRepsForOthers = currentKid => {
+        const oldRep = startingReps[currentKid];
+        const newRep = $reps[currentKid];
+        let modifier = 1;
+        if (newRep < oldRep) {
+            modifier = -1;
+        }
+
+        for (const otherGroup of Object.keys($howTheyFeelAbout)) {
+            
+            if (otherGroup == currentKid) {
+                continue;
+            } else {
+                $reps[otherGroup] += $howTheyFeelAbout[otherGroup][currentKid] * modifier;
+            }
+        }
     }
 
 </script>
@@ -154,23 +190,41 @@
         right: 10px;
     }
 
-    .wave {
-        position: absolute;
-        right: 0;
+    .buttons {
+        display: inline-flex;
+        height: 800px;
+        padding-left: 250px;
+        margin-top: 100px;
     }
 
-    .wave button:hover {
-        box-shadow: 0 0 5px 10px cyan;
+    .tableContainer {
+       height: 900px;
+       overflow-x: auto;
+       border: 1px solid cyan;
+       background-image: url("../assets/images/hall_inner_background.png");
+        background-attachment: local;
+        background-position: left top;
+        background-repeat: no-repeat;
+        position: relative;
+        left: 500px;
+    }
+
+    .buttons button {
+        z-index: 1;
+        width: 800px;
+        border: 0;
+        background-color: transparent;
+        height: 100%;
     }
 
     .them {
-        position: absolute;
+        /* position: absolute;
         left: 1300px;
-        top: 100px;
-      
+        top: 100px; */
+        width: 150%;
         font-size: 48px;
-        min-width: 600px;
-        max-width: 600px;
+        /* min-width: 600px;
+        max-width: 600px; */
     }
     .them .line {
         border-radius: 10%;
@@ -180,28 +234,27 @@
     }
 
     .you {
-        position: absolute;
+        width: 150%;
+        /* position: absolute; */
         font-size: 48px;
-        left: 600px;
-        top: 200px;
-        max-width: 600px;
-        min-width: 600px;
+        /* left: 600px;
+        top: 200px; */
+        /* max-width: 600px;
+        min-width: 600px; */
     }
 
     .you button {
         background-color: aquamarine;
         border-radius: 10%;
         padding: 2rem;
-        max-width: 600px;
-        min-width: 600px;
+        /* max-width: 600px;
+        min-width: 600px; */
         position: relative;
     }
     .you button:hover {
         background-color: lightgreen;
     }
-    .you .doneButton {
 
-    }
 </style>
 
 <audio src={bgMusic} autoplay=true loop="true"/>
@@ -209,27 +262,44 @@
 <div class="playerContainer">
     <Player></Player>
 </div>
-<div class="wave">
-{#each localKids as kid}
-    <button on:click={async () => await talkTo(kid)}>👋 {kid} </button>
-{/each}
-</div>
-<div class="them">
-    {#each them as line}
-    <div class="line">{line}</div>
-    {/each}
-</div>
-    {#if showYou}
-        <div class="you">
-
-            {#each you as option}
-                <button on:click={() => talk(option.rank)}>{option.value}</button>
-            {/each}
-            {#if showDoneWithKidButton}
-            <button class="doneButton" on:click={clearKid}>Bye!</button>
+<div class="tableContainer">
+    <div class="buttons">
+        {#each localKids as kid}
+        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+        <button on:mouseover={() => showArrow = kid} on:click|once={async () => {console.log("click"); await talkTo(kid)}}>
+            &nbsp;
+            {#if showArrow == kid && canTalk[kid] && !talking}
+                <img src="assets/images/lunch/lunch_talk.png"/>
+            {/if}
+            {#if talking == kid}
+                <div class="them">
+                    {#each them as line}
+                    <div class="line">{line}</div>
+                    {/each}
+                </div>
+                {#if showYou}
+                    <div class="you">
+                        {#each you as option}
+                            <button on:click={async () => await talk(option.rank)}>{option.value}</button>
+                        {/each}
+                    </div>
                 {/if}
-        </div>
-    {/if}
+                <div class="them">
+                    {#each them2 as line}
+                    <div class="line">{line}</div>
+                    {/each}
+                </div>
+                {#if showDoneWithKidButton}
+                <div class="you">
+                    <button class="doneButton" on:click={clearKid}>Bye!</button>
+                </div>
+                {/if}
+
+            {/if}
+        </button>
+        {/each}
+    </div>
+</div>
 
 {#if !currentKid}
     <button class="doneButton" on:click={advance}>That's enough talking for one day. Time for lunch...</button>

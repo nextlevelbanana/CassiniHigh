@@ -9,6 +9,9 @@
 	import ChooseSelfScene from "./ChooseSelfScene.svelte";
 	import OutroScene from "./OutroScene.svelte";
 	import CreditsScene from "./CreditsScene.svelte";
+	import KonamiCode from "./KonamiCode.svelte";
+	import CurrentDay from "./CurrentDay.svelte";
+
 
 	console.log("Hey! No cheating!");
 
@@ -38,7 +41,11 @@
 	{:else if $currentScene == "credits"}
 		<CreditsScene/>
 	{/if}
+	{#if $currentScene != "credits"}
+	<CurrentDay/>
+	{/if}
 	<PauseMenu/>
+	<KonamiCode/>
 </main>
 
 <style>
@@ -47,5 +54,7 @@
 		background-image: var(--bgImg);
 		height:100vh;
 		width: 100vw;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 </style>

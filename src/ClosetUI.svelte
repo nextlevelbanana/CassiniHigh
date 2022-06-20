@@ -7,17 +7,43 @@
 </script>
 
 <style>
-    button:hover {
-        box-shadow: 0 0 0 4px cyan;
-    }
     .buttonCol {
         display: flex;
         flex-direction: column;
     }
+    .buttonCol button {
+        background-color: transparent;
+        height: 140px;
+        width: 160px;
+    }
+    .hair {
+        background-image: url("../assets/images/UI/closet-button_hair-up.png");
+    }
+    .hair:hover {
+        background-image: url("../assets/images/UI/closet-button_hair-down.png");
+    }
+    .feet {
+        background-image: url("../assets/images/UI/closet-button_feet-up.png");
+    }
+    .feet:hover {
+        background-image: url("../assets/images/UI/closet-button_feet-down.png");
+    }
+    .top {
+        background-image: url("../assets/images/UI/closet-button_tops-up.png");
+    }
+    .top:hover {
+        background-image: url("../assets/images/UI/closet-button_tops-down.png");
+    }
+    .bottom {
+        background-image: url("../assets/images/UI/closet-button_bottom-up.png");
+    }
+    .bottom:hover {
+        background-image: url("../assets/images/UI/closet-button_bottom-down.png");
+    }
 </style>
 <div class="buttonCol">
-    <button on:click={() => load("hair")}><img src="assets/images/UI/closet-button_hair.png"/></button>
-    <button on:click={() => load("top")}><img src="assets/images/UI/closet-button_top.png"/></button>
-    <button on:click={() => load("bottom")}><img src="assets/images/UI/closet-button_bottom.png"/></button>
-    <button on:click={() => load("feet")}><img src="assets/images/UI/closet-button_feet.png"/></button>
+    <button class="hair" on:click={() => load("hair")}>&nbsp;</button>
+    <button class="top" on:click={() => load("top")}>&nbsp;</button>
+    <button class="bottom" on:click={() => load("bottom")}>&nbsp;</button>
+    <button class="feet" on:click={() => load("feet")}>&nbsp;</button>
 </div>

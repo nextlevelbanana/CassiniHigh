@@ -3,7 +3,6 @@
     import {fade} from "svelte/transition";
     import {goalGroup, currentScene, currentDay, kids} from "./store.js";
     import PickAKid from "./PickAKid.svelte";
-    import CurrentDay from "./CurrentDay.svelte";
     let conversations;
     let lines = [];
     let currentConvo = 0;
@@ -154,7 +153,6 @@
 
 <svelte:window on:keypress={advanceConvo}/>
 {#if !showOverlay}
-    <CurrentDay/>
     {#await getConversations() then value}
         <div class="chat" bind:this={chat}>
             {#each lines as line}

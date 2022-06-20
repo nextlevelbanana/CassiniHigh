@@ -2,7 +2,6 @@
     import { afterUpdate } from "svelte";
     import {fade} from "svelte/transition";
     import {goalGroup, currentScene, currentDay, threshholds, reps, kids} from "./store.js";
-    import CurrentDay from "./CurrentDay.svelte";
     let conversations;
     let lines = [];
     let currentConvo = 0;
@@ -112,6 +111,7 @@
     }
 
     const moveOn = () => {
+        //todo: show pic of group
         currentScene.set("credits");
     }
 </script>
@@ -178,7 +178,6 @@
 
 <svelte:window on:keypress={advanceConvo}/>
 {#if !showOverlay}
-    <CurrentDay/>
     {#await getConversations() then value}
         <div class="chat" bind:this={chat}>
             {#each lines as line}
