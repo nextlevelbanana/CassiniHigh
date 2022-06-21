@@ -9,6 +9,7 @@ html, body {
 	height: 100%;
 	overflow: hidden;
 	font-family: "Ink Free";
+	background-color: #c9d0db;
 }
 
 body {
@@ -54,6 +55,12 @@ button {
 	color: #333;
 	background-color: #f4f4f4;
 	outline: none;
+	font-size: 48px;
+}
+
+button:hover {
+	outline: 2px solid cyan;
+	background-color: white;
 }
 
 button:disabled {
@@ -64,6 +71,7 @@ button:not(:disabled):active {
 	background-color: #ddd;
 }
 
-button:focus {
-	border-color: cyan;
+input, select {
+	font-size: 48px;
 }
+

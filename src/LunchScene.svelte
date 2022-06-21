@@ -15,6 +15,7 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     $: if (!isStanding) {
         currentDay.set($currentDay + 1);
         if ($currentDay > 5) {
+            currentDay.set(5);
             currentScene.set("outro");
         } else {
             currentScene.set("closet");
@@ -68,8 +69,6 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
 
         if (currentMood == "like" || (currentMood == "unsure" && dialogs.canSitOnUnsure)) {
             response2 = "Really? I mean, oh, rad, thanks!";
-            await sleep(3000);
-            isStanding = false;
         } else {
             response2 = "Oh... ok... sorry to bother you..."
             await sleep(2000);
@@ -89,8 +88,11 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     }
 
     const eatAlone = () => {
-        displayInternalMonologue();
-        moveOn();
+        response2 = "The truly cool kids can eat by themselves with confidence. ...Right?"
+    }
+
+    const moveOn = () => {
+        isStanding = false;
     }
 
 </script>
@@ -107,16 +109,22 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
 
     button {
         z-index: 1;
-        width: 800px;
+        width: 890px;
         border: 0;
         background-color: transparent;
         height: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tableContainer button:hover {
+        outline: none;
     }
 
     .buttons {
         display: inline-flex;
         height: 800px;
-        padding-left: 250px;
+        padding-left: 280px;
         margin-top: 100px;
     }
 
@@ -124,9 +132,17 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
         background-color: aquamarine;
         border-radius: 10%;
         padding: 2rem;
-        max-width: 600px;
+        max-width:100%;
         min-width: 600px;
         position: relative;
+    }
+
+    button.you:hover {
+        background-color: lightgreen;
+    }
+
+    .tiny {
+        font-size: 24px;
     }
 
     .them {
@@ -137,24 +153,29 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     }
 </style>
 
-<h1>LUNCH TIME! Who should I try and sit with...? {currentMood}</h1>
+<h1>Lunch time! Who should I try and sit with...?</h1>
 <div class="tableContainer">
     <div class="buttons">
         {#each localKids as kid}
+        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
         <button on:mouseover={() => showArrow = kid} on:click={async () => await sitWith(kid)}>
             &nbsp;
             {#if showArrow == kid && canTalk[kid] && !asking}
                 <img src="assets/images/lunch/lunch_talk.png"/>
             {/if}
-            {#if asking == kid}
-                <div class="you">Can I eat with you?</div>
-                {#if responseLine}
-                    <div class="them">{responseLine}</div>
+            <div class="convo">
+                {#if asking == kid}
+                    {#if kid != "alone"}
+                    <div class="you">Can I eat with you?</div>
+                    {/if}
+                        {#if responseLine}
+                            <div class="them">{responseLine}</div>
+                        {/if}
+                    {#if response2}
+                    <button class="you" on:click={moveOn}>{response2} <span class="tiny">(click to continue)</span></button>
+                    {/if}
                 {/if}
-                {#if response2}
-                <div class="you">{response2}</div>
-            {/if}
-            {/if}
+            </div>
         </button>
             
         {/each}

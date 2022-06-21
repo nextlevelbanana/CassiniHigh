@@ -14,6 +14,8 @@
     let canType = true;
     let chat;
     let showSkip = false;
+    let showPlaceholder = true;
+    let moving = false;
 
     const getConversations = async () => {
         const json = await (await fetch("assets/data/intro.json")).json();
@@ -60,11 +62,14 @@
                 currentConvo = 1;
                 canType = true;
             } else {
+                canType = false;
                 sleep(600);
-                moveOn();
+                return moveOn();
             }
         } else {
             if (line.speaker == "you" && canType) {
+                showPlaceholder = false;
+
                 if (cursor > line.text.length - 1) {
                     if (ev.key == "Enter") {
                        await sendEnter();
@@ -85,13 +90,16 @@
     }
 
     const moveOn = () => {
-        console.log($currentDay++);
-        currentDay.set($currentDay++);
+        currentDay.set(1);
         currentScene.set("closet");
     }
 </script>
 
 <style>
+    .placeholder {
+        font-size: 48px;
+        color: gray;
+    }
     .overlay {
         height: calc(100vh - 3rem);
         width: 100vw;
@@ -100,6 +108,9 @@
         background-color: azure;
         top: 0;
         left: 0;
+        background-image: url("../assets/images/closet_background.png");
+        margin: 1rem auto;
+        text-align: center;
 
     }
     .you {
@@ -160,6 +171,9 @@
             {/each}    
         </div>   
         <div class="staging">
+            {#if showPlaceholder}
+            <div class="placeholder line">(type in here)</div>
+            {/if}
             <div class="line">
                 {staging}{#if canType}<span class="cursor">|</span>{/if}
             </div>

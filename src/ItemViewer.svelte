@@ -5,14 +5,7 @@
     const items=[1,2,3,4,5,6];
 
     const putOn = i => {
-        switch ($itemsInView) {
-            case "hair" :
-                hair.set(i);
-                break;
-            case "top": 
-                top.set(i);
-                break;
-        }
+        eval($itemsInView).set(i);
     }
 
 </script>
@@ -22,14 +15,14 @@
         height: 800px;
         width: 1000px;
         position: absolute;
-        top: 0;
+        top: 50px;
         left: 600px;
         overflow-x: auto;
         display: flex;
     }
     img {
         display: inline-block;
-        max-width: 100%;
+        max-width: 66%;
         max-height: 80%;
     }
 </style>

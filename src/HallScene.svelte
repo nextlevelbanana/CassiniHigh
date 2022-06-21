@@ -103,6 +103,7 @@
 
         them2 = [json["on" + rank]];
         calculateNewRep(rank);
+        await sleep(1000);
         giveTip();
         showDoneWithKidButton = true;
     }
@@ -176,11 +177,15 @@
 </script>
 
 <style>
+    h1 {
+        margin-top: 0;
+    }
     .playerContainer {
         position: absolute;
-        top: 30px;
-        left: 100px;
+        top: -50px;
+        left: 50px;
         display: inline-flex;
+        transform: scale(0.8);
     }
 
     .doneButton {
@@ -192,37 +197,50 @@
 
     .buttons {
         display: inline-flex;
-        height: 800px;
-        padding-left: 250px;
-        margin-top: 100px;
+        height: 100%;
+        /* padding-left: 250px;
+        margin-top: 100px; */
     }
 
     .tableContainer {
-       height: 900px;
+       height: 800px;
        overflow-x: auto;
-       border: 1px solid cyan;
+       overflow-y: hidden;
+       border: 1px dashed cyan;
        background-image: url("../assets/images/hall_inner_background.png");
         background-attachment: local;
         background-position: left top;
         background-repeat: no-repeat;
-        position: relative;
         left: 500px;
+        width: 1500px;
+        position: absolute;
+        top: 50px;
+        overflow-x: auto;
+        /* display: flex; */
     }
 
     .buttons button {
         z-index: 1;
-        width: 800px;
+        width: 900px;
         border: 0;
         background-color: transparent;
         height: 100%;
+        vertical-align: bottom;
+
+    }
+
+    .kids {
+        max-width: 100%;
+        max-height: calc(100% - 100px);
+        vertical-align: bottom;
     }
 
     .them {
         /* position: absolute;
         left: 1300px;
         top: 100px; */
-        width: 150%;
-        font-size: 48px;
+        /* width: 150%; */
+        font-size: 36px;
         /* min-width: 600px;
         max-width: 600px; */
     }
@@ -234,13 +252,15 @@
     }
 
     .you {
-        width: 150%;
+        /* width: 150%; */
         /* position: absolute; */
-        font-size: 48px;
+        font-size: 36px;
         /* left: 600px;
         top: 200px; */
         /* max-width: 600px;
         min-width: 600px; */
+        display: block;
+        text-align: center;
     }
 
     .you button {
@@ -250,15 +270,34 @@
         /* max-width: 600px;
         min-width: 600px; */
         position: relative;
+
     }
     .you button:hover {
         background-color: lightgreen;
     }
 
+    .convo {
+        position:absolute;
+        left: 400px;
+        top: 60px;
+        width: 1000px;
+        display: block;
+        height: 800px;
+        text-align: center;
+        z-index: 5;
+    }
+
+    .arrow {
+        height: 100px;
+        min-height: 100px;
+        display: block;
+        margin: 0px auto;
+    }
+
 </style>
 
 <audio src={bgMusic} autoplay=true loop="true"/>
-
+<h1>Ok. Chillin before class. The perfect time to make friends. You can do this...</h1>
 <div class="playerContainer">
     <Player></Player>
 </div>
@@ -267,39 +306,40 @@
         {#each localKids as kid}
         <!-- svelte-ignore a11y-mouse-events-have-key-events -->
         <button on:mouseover={() => showArrow = kid} on:click|once={async () => {console.log("click"); await talkTo(kid)}}>
-            &nbsp;
-            {#if showArrow == kid && canTalk[kid] && !talking}
-                <img src="assets/images/lunch/lunch_talk.png"/>
-            {/if}
-            {#if talking == kid}
-                <div class="them">
-                    {#each them as line}
-                    <div class="line">{line}</div>
-                    {/each}
-                </div>
-                {#if showYou}
-                    <div class="you">
-                        {#each you as option}
-                            <button on:click={async () => await talk(option.rank)}>{option.value}</button>
-                        {/each}
-                    </div>
-                {/if}
-                <div class="them">
-                    {#each them2 as line}
-                    <div class="line">{line}</div>
-                    {/each}
-                </div>
-                {#if showDoneWithKidButton}
-                <div class="you">
-                    <button class="doneButton" on:click={clearKid}>Bye!</button>
-                </div>
-                {/if}
-
-            {/if}
+                <img class="arrow" src={showArrow == kid && canTalk[kid] && !talking ? "assets/images/lunch/lunch_talk.png" : "assets/images/empty.png"}/>
+            <img class="kids" src={`./assets/images/groups/${kid}.png`}/>
         </button>
         {/each}
     </div>
 </div>
+
+{#if talking}
+<div class="convo">
+    <div class="them">
+        {#each them as line}
+        <div class="line">{line}</div>
+        {/each}
+    </div>
+    {#if showYou}
+        <div class="you">
+            {#each you as option}
+                <button on:click={async () => await talk(option.rank)}>{option.value}</button>
+            {/each}
+        </div>
+    {/if}
+    <div class="them">
+        {#each them2 as line}
+        <div class="line">{line}</div>
+        {/each}
+    </div>
+    {#if showDoneWithKidButton}
+    <div class="you">
+        <button class="doneButton" on:click={clearKid}>...ok, bye...</button>
+    </div>
+    {/if}
+</div>
+{/if}
+
 
 {#if !currentKid}
     <button class="doneButton" on:click={advance}>That's enough talking for one day. Time for lunch...</button>

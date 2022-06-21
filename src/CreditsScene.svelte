@@ -1,3 +1,6 @@
+<script>
+    import {currentScene} from "./store.js";
+</script>
 <h1>Credits</h1>
 
 <h2>Code, Writing</h2>
@@ -14,3 +17,5 @@
    <a href="www.chrisgruchacz.com">www.chrisgruchacz.com</a><br/>
     Instgram: @chris.gruchacz<br/>
     Twitter: @chris_gruchacz</h3>
+
+    <button on:click={() => currentScene.set("title")}>menu</button>

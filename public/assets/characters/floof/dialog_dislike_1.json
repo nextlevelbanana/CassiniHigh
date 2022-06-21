@@ -2,5 +2,13 @@
     "kid": "floof",
     "attitude": "dislike",
     "day": 1,
-    "opener": "Hey... you..."
+    "opener": "Hellllllo.",
+    "good": "A little feet-y, but fine",
+    "bad": "It's hella! ???",
+    "what": "poggerz.",
+    "ongood": "YOU HAVE THE FEET SENSORS. I guess it's not just us.",
+    "onbad": "orly? I'm... sure it is.",
+    "onwhat": "Zreggop.",
+    "goodTip": "Oh zap, we have to set free the spaceflies from CRISPR class. Your $name is the best!",
+    "badTip": "Is that $name you're wearing supposed to be something? \nAnyway bye, we're going to go stand over there until class."
 }

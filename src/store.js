@@ -16,15 +16,15 @@ export const feet = writable("1");
 
 export const itemsInView = writable("hair");
 export const putOn = writable("1");
-export const currentScene = writable("hall");
+export const currentScene = writable("title");
 
 export const days = readable(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]);
 export const currentDay = writable(0);
 
 export const reps = writable({
     floof: 0.5,
-    turbo: 0.7,
-    invisigoth: 0.23,
+    turbo: 0.5,
+    invisigoth: 0.4,
     morm: 0.6
 });
 

@@ -12,24 +12,21 @@
     img#top {
         z-index: 3;
         position: absolute;
-        top: 115px;
-        left: -50px;
-        display: none;
+        top: 203px;
+        left: -19px;
     }
     img#bottom {
         z-index: 2;
         position: absolute;
-        top: 364px;
-        left: 20px;
-        display: none;
+        top: 455px;
+        left: -6px;
 
     }
     img#feet {
-        z-index: 1;
+        z-index: 3;
         position: absolute;
-        top: 677px;
-        left: 26px;
-        display: none;
+        top: 777px;
+        left: 9px;
 
     }
 </style>

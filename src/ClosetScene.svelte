@@ -12,8 +12,8 @@
 <style>
     .playerContainer {
         position: absolute;
-        top: 10px;
-        left: 100px;
+        top: -10px;
+        left: 80px;
         display: inline-flex;
     }
 
@@ -23,10 +23,15 @@
         bottom: 10px;
         right: 10px;
     }
+    .container-container {
+        transform: scale(0.9);
+    }
 </style>
-
+<h1>What should I wear...?</h1>
 <div class="playerContainer">
+    <div class="container-container">
     <Player/>
+    </div>
     <ClosetUI/>
     <ItemViewer/>
 </div>

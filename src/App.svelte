@@ -41,7 +41,7 @@
 	{:else if $currentScene == "credits"}
 		<CreditsScene/>
 	{/if}
-	{#if $currentScene != "credits"}
+	{#if $currentScene != "credits" && $currentScene != "title" && $currentScene != "name"}
 	<CurrentDay/>
 	{/if}
 	<PauseMenu/>

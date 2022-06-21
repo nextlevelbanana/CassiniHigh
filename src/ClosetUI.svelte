@@ -10,6 +10,7 @@
     .buttonCol {
         display: flex;
         flex-direction: column;
+        justify-content: center;
     }
     .buttonCol button {
         background-color: transparent;

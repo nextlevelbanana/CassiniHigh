@@ -2,6 +2,20 @@
 import { currentScene } from "./store";
 
 </script>
-<h1>Earthcore Kid at Cassini High</h1>
-<button on:click={() => currentScene.set("name")}>play!</button>
-<button on:click={() => currentScene.set("credits")}>credits</button>
+
+<style>
+    .container {
+        margin: 1rem auto;
+        text-align: center;
+    }
+    h1 {
+        font-size: 144px;
+    }
+</style>
+<div class="container">
+    <h1>Fitting in at Cassini High</h1>
+    <div>
+    <button on:click={() => currentScene.set("name")}>play!</button>
+    </div>
+    <button on:click={() => currentScene.set("credits")}>credits</button>
+</div>

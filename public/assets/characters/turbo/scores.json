@@ -1,9 +1,62 @@
 {
     "hair": [{
         "id": 1,
+        "score": 0.1
+    },
+    {
+        "id": 2,
+        "score": 0.28
+    },
+    {
+        "id": 3,
         "score": 0.8
+    },
+    {
+        "id": 4,
+        "score": 0.85
+    },
+    {
+        "id": 5,
+        "score": 0.25
+    },
+    {
+        "id": 6,
+        "score": 1
     }],
-    "top": [{"id": 1, "score": 1}, {"id": 2, "score": 0}],
-    "bottom": [{"id": 1, "score": 0.5}],
-    "feet": [{"id": 1, "score": 0.2}]
+    "top": [{
+        "id": 1,
+        "score": 0.85
+    },
+    {
+        "id": 2,
+        "score": 1
+    },
+    {
+        "id": 3,
+        "score": 0.1
+    },
+    {
+        "id": 4,
+        "score": 0.97
+    },
+    {
+        "id": 5,
+        "score": 0.28
+    },
+    {
+        "id": 6,
+        "score": 0.1
+    }],
+    "bottom": [{
+        "id": 1, 
+        "score": 0.95}, 
+        {
+            "id": 2, 
+            "score": 0.25
+        },
+        {
+            "id": 3, 
+            "score": 0.85
+        }],
+        "feet": [{"id": 1, "score": 0.1}, {"id": 2, "score": 1}]
 }
