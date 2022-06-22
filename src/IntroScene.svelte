@@ -3,6 +3,7 @@
     import {fade} from "svelte/transition";
     import {goalGroup, currentScene, currentDay, kids} from "./store.js";
     import PickAKid from "./PickAKid.svelte";
+import App from "./App.svelte";
     let conversations;
     let lines = [];
     let currentConvo = 0;
@@ -27,6 +28,9 @@
     }
 
     const sendEnter = async () => {
+        const sfx = new Audio("./assets/sounds/imsend.wav");
+        sfx.loop = false;
+        sfx.play();
         const line = conversations[currentConvo][idx];
         staging = "";
         lines = [...lines, line];
@@ -34,7 +38,7 @@
         cursor = 0;
         showEnter = false;
         canType = false;
-        await sleep(1000);
+        await sleep(1200);
         advanceConvo();
     }
 
@@ -56,14 +60,14 @@
         const line = conversations[currentConvo][idx];
         if (!line) {
             if (currentConvo == 0) {
-                sleep(300);
+                sleep(600);
                 showOverlay = true;
                 idx = 0;
                 currentConvo = 1;
                 canType = true;
             } else {
                 canType = false;
-                sleep(600);
+                sleep(1200);
                 return moveOn();
             }
         } else {
@@ -83,6 +87,9 @@
                 }
             } else if (line.speaker == "them") {
                 lines = [...lines, line];
+                const sfx = new Audio("./assets/sounds/imrcv.wav");
+                sfx.loop = false;
+                sfx.play();
                 idx++;
                 canType = true;
             }

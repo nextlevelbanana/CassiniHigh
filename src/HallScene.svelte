@@ -1,6 +1,7 @@
 <script>
     import Player from "./Player.svelte";
     import {sleep} from "./sleep.js";
+    import {getItemName} from "./helpers.js";
     import {name, kids, currentScene, hair, top, bottom, feet, reps, threshholds, counts, howTheyFeelAbout} from "./store.js";
     //copypasta
     let showArrow = "";
@@ -9,8 +10,15 @@
     let canTalk = {floof: true, invisigoth: true, morm: true, turbo: true};
     //end copypasta
 
+    const formatString = (str,item) => {
+        let res = str.replaceAll("$name", $name)
+        if (item) {
+            res = res.replaceAll("$item", getItemName(item, eval("$" + item)));
+        }
+        return res;
+    }
 
-    const bgMusic = null;
+    let bgMusic = null;
 
     let stores;
     $: stores = {
@@ -19,7 +27,9 @@
         bottom: $bottom,
         feet: $feet,
         turbo: $reps.turbo,
-        floof: $reps.floof
+        floof: $reps.floof,
+        invisigoth: $reps.invisigoth,
+        morm: $reps.morm
     }
 
     const startingReps = {...$reps};
@@ -40,12 +50,13 @@
     }
 
     const talkTo = async (kid) => {
+        bgMusic = `./assets/music/${kid}.wav`;
         them = [];
         them2 = [];
         currentKid = kid;
         showArrow = ""; 
         talking = kid;
-        await sleep(400);
+        await sleep(2400);
         const outfitScore = await calculateOutfit(kid);
         const newAttitude = calculateNewAttitude(kid, outfitScore);
         await loadCorrectDialog(kid, newAttitude);
@@ -79,7 +90,6 @@
         score = newRep;
         $reps[kid] = newRep;
         $reps = {...$reps};
-        console.log($reps);
         return newRep;
     }
 
@@ -91,36 +101,29 @@
                 "dislike" : "unsure"); 
         $counts[kid][mood] += 1;
         json = await (await fetch(`./assets/characters/${kid}/dialog_${mood}_1.json`)).json();
-        them = [json.opener.replaceAll("$name", $name)];
-        await sleep(400);
-        you = [{rank: "good", value: json.good}, {rank: "bad", value: json.bad}, {rank: "what", value: json.what}].sort(shuffle );
+        them = [formatString(json.opener)];
+        await sleep(2400);
+        you = [{rank: "good", value: formatString(json.good)}, {rank: "bad", value: formatString(json.bad)}, {rank: "what", value: formatString(json.what)}].sort(shuffle );
         showYou = true;
     }       
 
     const talk = async rank => {
         you = [you.find(opt => opt.rank == rank)];
-        await sleep(400);
+        await sleep(2400);
 
         them2 = [json["on" + rank]];
         calculateNewRep(rank);
-        await sleep(1000);
+        await sleep(3000);
         giveTip();
         showDoneWithKidButton = true;
     }
 
     const giveTip = () => {
         if (min.score < 0.45) {
-            them2 = [...them2, json.badTip.replaceAll("$name", keyToFit[min.key])];
+            them2 = [...them2, formatString(json.badTip, (min.key))];
         } else if (max.score > 0.75) {
-            them2 = [... them2, json.goodTip.replaceAll("$name", keyToFit[max.key])];
+            them2 = [... them2, formatString(json.goodTip, max.key)];
         }
-    }
-
-    const keyToFit = {
-        hair: "hair",
-        top: "shirt",
-        bottom: "pants",
-        feet: "shoes"
     }
 
     const calculateNewRep = rank => {
@@ -146,7 +149,7 @@
         you = [];
         them = [];
         canTalk[currentKid] = false;
-        console.log(canTalk)
+        bgMusic = null;
         calculateNewRepsForOthers(currentKid);
         // localKids = localKids.filter(k => k != currentKid);
         currentKid = null;
@@ -189,7 +192,7 @@
     }
 
     .doneButton {
-        border: 1px solid lime;
+        border: 1px solid cyan;
         position: absolute;
         bottom: 10px;
         right: 10px;
@@ -252,13 +255,7 @@
     }
 
     .you {
-        /* width: 150%; */
-        /* position: absolute; */
         font-size: 36px;
-        /* left: 600px;
-        top: 200px; */
-        /* max-width: 600px;
-        min-width: 600px; */
         display: block;
         text-align: center;
     }
@@ -267,8 +264,6 @@
         background-color: aquamarine;
         border-radius: 10%;
         padding: 2rem;
-        /* max-width: 600px;
-        min-width: 600px; */
         position: relative;
 
     }
@@ -295,8 +290,11 @@
     }
 
 </style>
+{#if bgMusic}
+    <audio src={bgMusic} autoplay=true loop="true"/>
+{/if}
 
-<audio src={bgMusic} autoplay=true loop="true"/>
+
 <h1>Ok. Chillin before class. The perfect time to make friends. You can do this...</h1>
 <div class="playerContainer">
     <Player></Player>
@@ -305,7 +303,7 @@
     <div class="buttons">
         {#each localKids as kid}
         <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-        <button on:mouseover={() => showArrow = kid} on:click|once={async () => {console.log("click"); await talkTo(kid)}}>
+        <button on:mouseover={() => showArrow = kid} on:click|once={async () =>  await talkTo(kid)}>
                 <img class="arrow" src={showArrow == kid && canTalk[kid] && !talking ? "assets/images/lunch/lunch_talk.png" : "assets/images/empty.png"}/>
             <img class="kids" src={`./assets/images/groups/${kid}.png`}/>
         </button>
@@ -334,7 +332,7 @@
     </div>
     {#if showDoneWithKidButton}
     <div class="you">
-        <button class="doneButton" on:click={clearKid}>...ok, bye...</button>
+        <button class="doneButton" on:click={clearKid}>...bye...</button>
     </div>
     {/if}
 </div>

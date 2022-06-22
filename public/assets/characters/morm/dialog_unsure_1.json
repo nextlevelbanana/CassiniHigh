@@ -1,0 +1,15 @@
+{
+    "kid": "morms",
+    "attitude": "unsure",
+    "day": 1,
+    "opener": "Hey, $name ? Welcome to our pit of gassy chaos.",
+    "good": "Please don't fire me! I promise I won't use all of your wildlife for home goods within my generation",
+    "bad": "My bad",
+    "what": "That reminds me, did you know that fire was not on earth for the majority of geologic history?",
+    "ongood": "We reserve the depletion zones for the earthlings who give big speeches. You seem like the friendly puny kind.",
+    "onbad": "Omph. I have to go be early somewhere",
+    "onwhat": "Yes, we are actually at school right now. Are you feeling okay?",
+    "goodTip": "Erm. Sorry for staring at your $item, I just love some earthstuff! See yas.",
+    "badTip": "Oh, and is that $item a relic from Earth? Not that... well, let us know if you feel homesick."
+
+}

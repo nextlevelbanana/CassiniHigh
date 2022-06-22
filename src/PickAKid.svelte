@@ -20,7 +20,7 @@
 
     const select = kid => {
         selected = kid;
-        bgMusic = `./assets/music/${kid}.mp3`;
+        bgMusic = `./assets/music/${kid}.wav`;
     }
 </script>
 
@@ -39,6 +39,7 @@
     button:not(.done) {
         background-color: transparent;
         width: 470px;
+        border: none;
     }
 
     button img {

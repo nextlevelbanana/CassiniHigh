@@ -51,6 +51,9 @@
     }
 
     const sendEnter = async () => {
+        const sfx = new Audio("./assets/sounds/imsend.wav");
+        sfx.loop = false;
+        sfx.play();
         const line = conversations[currentConvo][idx];
         staging = "";
         lines = [...lines, line];
@@ -58,7 +61,7 @@
         cursor = 0;
         showEnter = false;
         canType = false;
-        await sleep(1000);
+        await sleep(1200);
         advanceConvo();
     }
 
@@ -80,13 +83,12 @@
         const line = conversations[currentConvo][idx];
         if (!line) {
             if (currentConvo == 0) {
-                sleep(300);
-                // showOverlay = true;
+                sleep(600);
                 idx = 0;
                 currentConvo = 1;
                 canType = true;
             } else {
-                sleep(600);
+                sleep(1200);
                 moveOn();
             }
         } else {
@@ -103,6 +105,9 @@
                     }
                 }
             } else if (line.speaker == "them") {
+                const sfx = new Audio("./assets/sounds/imrcv.wav");
+                sfx.loop = false;
+                sfx.play();
                 lines = [...lines, line];
                 idx++;
                 canType = true;

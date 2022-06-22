@@ -1,6 +1,6 @@
 {
-    "dislike": "Oh... sorry... table's full.",
-    "like": "Oh cool! Yeah, pull up a milk crate!",
-    "unsure": "Uh... hmm... I guess?",
+    "dislike": "OH ...we're expecting someone really cool to come sit here",
+    "like": "We were about to be so bored, come hover with us!",
+    "unsure": "Hmmm? Oh. Yeah. We're just in a whisper battle...",
     "canSitOnUnsure": true
 }

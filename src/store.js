@@ -16,7 +16,7 @@ export const feet = writable("1");
 
 export const itemsInView = writable("hair");
 export const putOn = writable("1");
-export const currentScene = writable("title");
+export const currentScene = writable("hall");
 
 export const days = readable(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]);
 export const currentDay = writable(0);
@@ -50,6 +50,8 @@ export const howTheyFeelAbout = readable({
         turbo: 0.03
     }
 })
+
+export const item = writable("");
 
 export const threshholds = readable({unsure: 0.3, like: 0.7});
 export const counts = writable({

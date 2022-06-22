@@ -2,5 +2,14 @@
     "kid": "floof",
     "attitude": "like",
     "day": 1,
-    "opener": "Oh hey $name!"
+    "opener": "earth $name!!!!!",
+    "good": "Saturn ... you!",
+    "bad": "I'm too young for the responsibilities of fame",
+    "what": "Party rock is in the house",
+    "ongood": "We identify each other using dance moves, you'll pick it up quick",
+    "onbad": "Erm don't worry too hard......",
+    "onwhat": "Party Rock is an earth mountain right? We don't pay attention in Ancenstral Geo, it's all propaganda",
+    "goodTip": "Oh zap, we have to set free the spaceflies from CRISPR class - come, we need comrades! That $item is the best by the way!",
+    "badTip": "Also is that $item you're wearing supposed to be something? \nAnyway bye, we're going to go stand over there until class"
+
 }

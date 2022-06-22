@@ -35,4 +35,6 @@
     <ClosetUI/>
     <ItemViewer/>
 </div>
+<audio src="./assets/music/closet.wav" autoplay=true loop="true"/>
+
 <button class="doneButton" on:click={advance}>I'm as ready as I'm gonna get...</button>

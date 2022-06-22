@@ -2,13 +2,13 @@
     "kid": "floof",
     "attitude": "unsure",
     "day": 1,
-    "opener": "Hey. You're $name, right? What do you think of Cassini Station so far?",
-    "good": "It smells like feet",
-    "bad": "It's so cool! I love retro tech!",
-    "what": "It's not very pog if you know what I mean",
-    "ongood": "GOD I KNOW RIGHT",
-    "onbad": "Hm. Well. There's no accounting for taste I guess.",
-    "onwhat": "'Pog', huh. They still saying that on earth?",
-    "goodTip": "I gotta go. See ya round. Oh by the way, I love your $name!",
-    "badTip": "Just a tip-- nobody around here really wears stuff like your $name anymore. Ok later!"
+    "opener": "Hellllllo ... what do you think of our social order instruction system?",
+    "good": "Kinda smells like feet, but it's fine.",
+    "bad": "It's hella! ???",
+    "what": "poggerz.",
+    "ongood": "YOU HAVE THE FEET SENSORS. I guess it's not just us",
+    "onbad": "orly? I'm... sure it is",
+    "onwhat": "Zreggop.",
+    "goodTip": "Oh zap, we have to set free the spaceflies from CRISPR class. That $item is the best ",
+    "badTip": "Also is that $item you're wearing supposed to be something? \nAnyway bye, we're going to go stand over there until class"
 }

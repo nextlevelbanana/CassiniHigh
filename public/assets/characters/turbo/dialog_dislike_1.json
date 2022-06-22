@@ -1,6 +1,15 @@
+
 {
     "kid": "turbo",
     "attitude": "dislike",
     "day": 1,
-    "opener": "Hey... you..."
+    "opener": "$name for DINNER!! I'm so tired of CALCI-FLAKES",
+    "good": "I'm carbo-loaded.",
+    "bad": "Can you like, chill",
+    "what": "Why are you running? Is this like earth birds?? I'm afraid?",
+    "ongood": "HEYYYyayayayayya- I'm hungry.",
+    "onbad": "oh. ...it's possible.",
+    "onwhat": "STOP FEARING, start LEAPING!",
+    "goodTip": "Wait. The $item ... ! I like it a lot. OK, gone!.",
+    "badTip": "ALERT, the $item is/are not approved. Anyway, GONE!"
 }

@@ -1,6 +1,7 @@
 <script>
     // import {fly} from "svelte/transition";
-import { currentScene, currentDay, days, kids, threshholds, reps } from "./store";
+    import { currentScene, currentDay, days, kids, threshholds, reps, item, name, hair, top, bottom, feet } from "./store";
+    import {getItemName} from "./helpers.js";
 
     let isStanding = true;
     let currentMood;
@@ -11,26 +12,49 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     let dialogs;
     let responseLine;
     let response2;
-
-    $: if (!isStanding) {
-        currentDay.set($currentDay + 1);
-        if ($currentDay > 5) {
-            currentDay.set(5);
-            currentScene.set("outro");
-        } else {
-            currentScene.set("closet");
-        }
-    }
+    let bgMusic;
 
     const sitWith = async (kid) => {
         if (kid == "alone") {
             eatAlone();
         }
         getCurrentMood(kid);
+        await calculateOutfit(kid);
         await askToSit(kid);
         await hearResponse(kid);
         recalculateMood();
         ifStandingRemoveFromOptions();
+    }
+
+    let stores;
+    $: stores = {
+        hair: $hair,
+        top: $top,
+        bottom: $bottom,
+        feet: $feet,
+        turbo: $reps.turbo,
+        floof: $reps.floof,
+        invisigoth: $reps.invisigoth,
+        morm: $reps.morm
+    }
+
+    let score;
+    let min;
+    const calculateOutfit = async kid => {
+        if (kid == "alone") return;
+        score = 0;
+        min = null;
+        var json = await (await fetch(`./assets/characters/${kid}/scores.json`)).json();
+        for (const [key,slot] of Object.entries(json)) {
+            const itemScore = slot.find(item => item.id == stores[key]).score;
+            score += itemScore;
+            if (!min || itemScore < min.score ) {
+                min = {key: key, score: itemScore}
+            }
+        }
+
+        item.set(getItemName(min.key, stores[min.key]));
+       
     }
 
     const getCurrentMood = async (kid) => {
@@ -44,9 +68,10 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     }
 
     const askToSit = async (kid) => {
+        bgMusic = `./assets/music/${kid}.wav`;
         showArrow = ""; 
         asking = kid;
-        await sleep(400);
+        await sleep(2400);
         dialogs = await (await fetch(`./assets/characters/${kid}/dialog_lunch_1.json`)).json();
     }
 
@@ -62,20 +87,17 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
 
     const hearResponse = async (kid) => {
         responseLine = "...";
-        await sleep(700/$reps[kid]);
+        await sleep(900/$reps[kid]);
 
-       responseLine = dialogs[currentMood];
-        await sleep(1000);
+       responseLine = dialogs[currentMood].replaceAll("$name", $name).replaceAll("$item", $item);
+        await sleep(3000);
 
         if (currentMood == "like" || (currentMood == "unsure" && dialogs.canSitOnUnsure)) {
             response2 = "Really? I mean, oh, rad, thanks!";
+            isStanding = false;
         } else {
             response2 = "Oh... ok... sorry to bother you..."
-            await sleep(2000);
-            asking = false;
-            delete canTalk[kid];
-            responseLine = "";
-            response2 = "";
+            isStanding = true;
         }
     }
 
@@ -88,11 +110,26 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
     }
 
     const eatAlone = () => {
-        response2 = "The truly cool kids can eat by themselves with confidence. ...Right?"
+        response2 = "The truly cool kids can eat by themselves with confidence. ...Right?";
+        isStanding = false;
     }
 
-    const moveOn = () => {
-        isStanding = false;
+    const moveOn = (kid) => {
+        if (!isStanding) {
+            currentDay.set($currentDay + 1);
+            if ($currentDay > 5) {
+                currentDay.set(5);
+                currentScene.set("outro");
+            } else {
+                currentScene.set("closet");
+            }
+        } else {
+            bgMusic = null;
+            asking = false;
+            delete canTalk[kid];
+            responseLine = "";
+            response2 = "";
+        }
     }
 
 </script>
@@ -154,17 +191,20 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
 </style>
 
 <h1>Lunch time! Who should I try and sit with...?</h1>
+{#if bgMusic}
+    <audio src={bgMusic} autoplay=true loop="true"/>
+{/if}
 <div class="tableContainer">
     <div class="buttons">
         {#each localKids as kid}
         <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-        <button on:mouseover={() => showArrow = kid} on:click={async () => await sitWith(kid)}>
+        <button on:mouseover={() => showArrow = kid} on:click|once={async () => await sitWith(kid)}>
             &nbsp;
             {#if showArrow == kid && canTalk[kid] && !asking}
                 <img src="assets/images/lunch/lunch_talk.png"/>
             {/if}
             <div class="convo">
-                {#if asking == kid}
+                {#if asking && asking == kid}
                     {#if kid != "alone"}
                     <div class="you">Can I eat with you?</div>
                     {/if}
@@ -172,7 +212,7 @@ import { currentScene, currentDay, days, kids, threshholds, reps } from "./store
                             <div class="them">{responseLine}</div>
                         {/if}
                     {#if response2}
-                    <button class="you" on:click={moveOn}>{response2} <span class="tiny">(click to continue)</span></button>
+                    <button class="you" on:click={() => moveOn(kid)}>{response2} <span class="tiny">(click to continue)</span></button>
                     {/if}
                 {/if}
             </div>

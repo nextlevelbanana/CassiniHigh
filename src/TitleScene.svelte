@@ -18,4 +18,6 @@ import { currentScene } from "./store";
     <button on:click={() => currentScene.set("name")}>play!</button>
     </div>
     <button on:click={() => currentScene.set("credits")}>credits</button>
+    <audio src="./assets/music/closet.wav" autoplay=true loop="true"/>
+
 </div>

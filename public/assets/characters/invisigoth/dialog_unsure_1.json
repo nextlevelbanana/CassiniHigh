@@ -1,0 +1,14 @@
+{
+    "kid": "invisigoth",
+    "attitude": "unsure",
+"day": 1,
+    "opener": "Hi. ... something.",
+    "good": "I hate what I've become.",
+    "bad": "$name .",
+    "what": "What phase of matter are you all in then, exactly?",
+    "ongood": "Ouch, earth got its vengeance",
+    "onbad": "OK, nice to meet you Patrick Katie or whatever",
+    "onwhat": "Plasma ...",
+    "goodTip": "We're gonna fade, however... bring more of the $item into this gasdumpster",
+    "badTip": "Nevermind, gotta fade... I can't look at your $item anymore"
+}
